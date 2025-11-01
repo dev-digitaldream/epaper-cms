@@ -1,16 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
 import { supabase } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth'
 import { convertToBMP, bmpToBase64 } from '@/lib/imageConverter'
-
-const createScreenSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().optional(),
-  duration: z.number().optional().default(30),
-  active: z.boolean().optional().default(true),
-  deviceId: z.string().optional(), // Auto-assign to device if provided
-})
 
 // GET /api/screens - List all screens for current user
 export async function GET() {
@@ -26,8 +17,8 @@ export async function GET() {
     if (error) throw error
 
     return NextResponse.json({ screens: data || [] })
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     console.error('Get screens error:', error)
@@ -91,8 +82,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ screen })
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     console.error('Create screen error:', error)

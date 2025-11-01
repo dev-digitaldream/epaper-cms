@@ -53,8 +53,8 @@ export async function GET(
 
     // Format response for ESP32
     const screens = (screenDevices || [])
-      .filter((sd: any) => sd.screens && sd.screens.bmp_data)
-      .map((sd: any) => ({
+      .filter((sd) => sd.screens && sd.screens.bmp_data)
+      .map((sd) => ({
         id: sd.screens.id,
         name: sd.screens.name,
         duration: sd.screens.duration,

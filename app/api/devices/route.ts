@@ -25,8 +25,8 @@ export async function GET() {
     if (error) throw error
 
     return NextResponse.json({ devices: data || [] })
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     console.error('Get devices error:', error)
@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
     if (error) throw error
 
     return NextResponse.json({ device: data })
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     if (error instanceof z.ZodError) {

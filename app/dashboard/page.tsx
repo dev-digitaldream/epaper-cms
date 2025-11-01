@@ -8,13 +8,14 @@ import type { Device } from '@/lib/types'
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; email: string; name?: string } | null>(null)
   const [devices, setDevices] = useState<Device[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     checkAuth()
     loadDevices()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkAuth = async () => {
@@ -57,7 +58,7 @@ export default function DashboardPage() {
       } else {
         alert('Failed to create device')
       }
-    } catch (error) {
+    } catch {
       alert('Error creating device')
     }
   }
@@ -148,7 +149,7 @@ export default function DashboardPage() {
               <div>
                 <h4 className="font-medium mb-2">1. Create a Device</h4>
                 <p className="text-sm text-gray-600">
-                  Click "Add Device" to register a new e-paper display. You'll get a device code and API key.
+                  Click &ldquo;Add Device&rdquo; to register a new e-paper display. You&apos;ll get a device code and API key.
                 </p>
               </div>
               <div>
